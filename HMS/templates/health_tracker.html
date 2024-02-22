@@ -1,0 +1,42 @@
+<!-- HMS/templates/health_tracker.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Health Tracker</title>
+    <!-- Include any CSS or other meta tags here -->
+</head>
+<body>
+    <h1>Health Tracker</h1>
+
+    <!-- Display form for updating health metrics -->
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update</button>
+    </form>
+
+    <hr>
+
+    <!-- Display table of entered health metrics -->
+    <h2>Entered Health Metrics</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Blood Pressure</th>
+                <th>Heart Rate</th>
+                <th>Sugar Levels</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in health_data %}
+                <tr>
+                    <td>{{ data.blood_pressure }}</td>
+                    <td>{{ data.heart_rate }}</td>
+                    <td>{{ data.sugar_levels }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

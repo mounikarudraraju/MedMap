@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Reports - MedMap
+{% endblock %}
+
+{% block content %}
+    <h2>Reports</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Serial Number</th>
+                    <th>Date</th>
+                    <th>Name</th>
+                    <th>DOB</th>
+                    <th>Doctor Name</th>
+                    <th>Report</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for report in reports %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ report.date }}</td>
+                        <td>{{ report.patient_name }}</td>
+                        <td>{{ report.patient_dob }}</td>
+                        <td>{{ report.doctor_name }}</td>
+                        <td>
+                            <a href="{{ report.report_file.url }}" download>
+                                <i class="fas fa-download"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

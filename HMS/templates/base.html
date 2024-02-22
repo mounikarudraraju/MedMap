@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MedMap - {% block title %}{% endblock %}</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Custom CSS for sidebar */
+        .wrapper {
+            display: flex;
+            width: 100%;
+            height: 100vh;  /* Full height of viewport */
+        }
+        #sidebar {
+            min-width: 250px;
+            max-width: 250px;
+            background: #343a40;
+            color: #fff;
+            transition: all 0.3s;
+            height: 100%;  /* Full height of parent container */
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-y: auto;  /* Enable vertical scrolling */
+            padding-top: 20px;
+        }
+        #sidebar.active {
+            width: 250px;
+        }
+        #sidebar .sidebar-header {
+            padding: 20px;
+            background: #212529;
+        }
+        #sidebar ul.components {
+            padding: 20px 0;
+            border-bottom: 1px solid #47748b;
+        }
+        #sidebar ul p {
+            padding: 10px;
+            font-size: 1.1em;
+            display: block;
+        }
+        #sidebar ul li a {
+            padding: 10px;
+            font-size: 1.1em;
+            display: block;
+            color: #fff;
+        }
+        #sidebar ul li a:hover {
+            background: #5f5f5f;
+        }
+        #sidebar ul li.active a {
+            background: #343a40;
+        }
+        #content {
+            width: 100%;
+            margin-left: 250px;  /* Adjust for the sidebar width */
+        }
+        @media (max-width: 768px) {
+            #sidebar {
+                width: 250px;
+            }
+            #content {
+                margin-left: 0;  /* Adjust for the collapsed sidebar */
+            }
+        }
+
+        /* Profile dropdown */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            right: 0;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Profile icon */
+        .profile-icon {
+            font-size: 20px;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="active">
+            <div class="sidebar-header">
+                <h3>MedMap</h3>
+            </div>
+            <ul class="list-unstyled components">
+                <li class="active">
+                    <a href="http://127.0.0.1:8000/">Dashboard</a>
+                </li>
+                <li>
+                    <a href="#dashboardSubmenu" aria-expanded="false" class="dropdown-toggle">Medication</a>
+                    <ul class="collapse list-unstyled" id="dashboardSubmenu">
+                        <li>
+                            <a href="#">Prescriptions</a>
+                        </li>
+                        <li>
+                            <a href="#">Clash Check</a>
+                        </li>
+                        <!-- Add more dashboard links as needed -->
+                    </ul>
+                </li>
+                <li>
+                    <a href="{% url 'appointments' %}">Appointments</a>
+                </li>
+                <li>
+                    <a href="{% url 'reports' %}">Reports</a>
+                </li>
+                <li>
+                    <a href="% url 'health_tracker' %}">Health Tracker</a>
+                </li>
+                <!-- Add more sidebar links as needed -->
+            </ul>
+        </nav>
+
+        <!-- Page Content -->
+        <div id="content">
+            <div class="container-fluid">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <div class="container-fluid">
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-user profile-icon"></i> Profile
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="#">Profile</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#">Sign Out</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+
+                <div class="container mt-3">
+                    <div class="row">
+                        <div class="col-md-12">
+                            {% block content %}{% endblock %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Font Awesome Script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js"></script>
+    <!-- Custom Script for Sidebar Toggle -->
+    <script>
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+
+            // Add toggle functionality to dropdown
+            $('#sidebar li').on('click', function () {
+                $(this).toggleClass('active');
+                $(this).find('ul').toggleClass('collapse');
+            });
+        });
+    </script>
+</body>
+</html>
